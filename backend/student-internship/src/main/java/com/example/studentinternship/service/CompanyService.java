@@ -1,6 +1,6 @@
 package com.example.studentinternship.service;
 
-import com.example.studentinternship.exception.NotFoundException;
+import com.example.studentinternship.exception.CompanyNotFoundException;
 import com.example.studentinternship.model.Company;
 import com.example.studentinternship.repository.CompanyRepository;
 import org.springframework.stereotype.Service;
@@ -36,7 +36,7 @@ public class CompanyService
     public Company updateCompany(String id, Company companyDetails)
     {
         Company company = companyRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Cannot find company with id: " + id));
+                .orElseThrow(() -> new CompanyNotFoundException(id));
         company.setCompanyName(companyDetails.getCompanyName());
         company.setCompanyDetails(companyDetails.getCompanyDetails());
         return companyRepository.save(company);
@@ -45,7 +45,7 @@ public class CompanyService
     public void deleteCompany(String id)
     {
         Company company = companyRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Cannot find company with id: " + id));
+                .orElseThrow(() -> new CompanyNotFoundException(id));
         companyRepository.delete(company);
     }
 }

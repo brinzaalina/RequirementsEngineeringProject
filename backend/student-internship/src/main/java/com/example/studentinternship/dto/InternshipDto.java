@@ -1,22 +1,11 @@
-package com.example.studentinternship.model;
+package com.example.studentinternship.dto;
 
-import jakarta.persistence.*;
-import org.hibernate.annotations.GenericGenerator;
-
-@Entity
-public class Internship
+public class InternshipDto
 {
-    @Id
-    @GeneratedValue(generator = "uuid2")
-    @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
     private String internshipId;
     private String title;
     private String description;
-
-    @ManyToOne
-    @JoinColumn(name = "company_id", nullable = false)
-    private Company company;
-
+    private String companyId;
     private String location;
     private String field;
     private Double salary;
@@ -52,14 +41,14 @@ public class Internship
         this.description = description;
     }
 
-    public Company getCompany()
+    public String getCompanyId()
     {
-        return company;
+        return companyId;
     }
 
-    public void setCompany(Company company)
+    public void setCompanyId(String companyId)
     {
-        this.company = company;
+        this.companyId = companyId;
     }
 
     public String getLocation()

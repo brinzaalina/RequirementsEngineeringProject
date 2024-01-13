@@ -1,11 +1,15 @@
 package com.example.studentinternship.configuration;
 
+import com.example.studentinternship.dto.InternshipDto;
+import com.example.studentinternship.model.Internship;
 import com.example.studentinternship.repository.UserRepository;
 import com.example.studentinternship.service.UserDetailsServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.PropertyMap;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -50,5 +54,20 @@ public class ApplicationConfiguration {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public ModelMapper modelMapper() {
+
+        ModelMapper modelMapper = new ModelMapper();
+
+        modelMapper.addMappings(new PropertyMap<Internship, InternshipDto>() {
+            @Override
+            protected void configure() {
+                map().setCompanyId(source.getCompany().getCompanyId());
+            }
+        });
+
+        return modelMapper;
     }
 }
