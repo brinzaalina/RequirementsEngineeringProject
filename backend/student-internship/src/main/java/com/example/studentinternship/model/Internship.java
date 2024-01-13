@@ -11,10 +11,12 @@ public class Internship
     @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
     private String internshipId;
     private String title;
+
+    @Column(length = 512)
     private String description;
 
     @ManyToOne
-    @JoinColumn(name = "company_id", nullable = false)
+    @JoinColumn(name = "companyId", nullable = false)
     private Company company;
 
     private String location;

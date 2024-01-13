@@ -2,7 +2,7 @@ package com.example.studentinternship.controller;
 
 import com.example.studentinternship.exception.CompanyNotFoundException;
 import com.example.studentinternship.model.Company;
-import com.example.studentinternship.service.CompanyService;
+import com.example.studentinternship.service.company.CompanyService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

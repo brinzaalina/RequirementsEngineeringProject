@@ -1,4 +1,4 @@
-package com.example.studentinternship.service;
+package com.example.studentinternship.service.company;
 
 import com.example.studentinternship.exception.CompanyNotFoundException;
 import com.example.studentinternship.model.Company;

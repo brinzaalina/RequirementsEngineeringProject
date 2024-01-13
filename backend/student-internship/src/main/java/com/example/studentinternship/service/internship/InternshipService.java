@@ -1,4 +1,4 @@
-package com.example.studentinternship.service;
+package com.example.studentinternship.service.internship;
 
 import com.example.studentinternship.dto.InternshipDto;
 import com.example.studentinternship.exception.CompanyNotFoundException;
@@ -7,6 +7,9 @@ import com.example.studentinternship.model.Internship;
 import com.example.studentinternship.repository.CompanyRepository;
 import com.example.studentinternship.repository.InternshipRepository;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -35,32 +38,31 @@ public class InternshipService
                 {
                     Internship internship = modelMapper.map(internshipDto, Internship.class);
                     internship.setCompany(company);
-                    Internship savedInternship = internshipRepository.save(internship);
-                    return modelMapper.map(savedInternship, InternshipDto.class);
+                    return convertToDto(internshipRepository.save(internship));
                 })
                 .orElseThrow(() -> new CompanyNotFoundException(internshipDto.getCompanyId()));
     }
 
-    public List<InternshipDto> getAllInternships()
-    {
-        return internshipRepository.findAll()
-                .stream()
-                .map(internship -> modelMapper.map(internship, InternshipDto.class))
-                .toList();
+    public Page<InternshipDto> getAllInternships(
+            List<String> locations,
+            List<String> fields,
+            Boolean salaryFilter,
+            String titleSearch,
+            Pageable pageable) {
+        Specification<Internship> spec = InternshipSpecifications.withDynamicFilter(locations, fields, salaryFilter, titleSearch);
+        Page<Internship> page = internshipRepository.findAll(spec, pageable);
+        return page.map(this::convertToDto);
+    }
+
+    public Page<InternshipDto> getAllInternshipsByCompany(String companyId, Pageable pageable) {
+        Page<Internship> page = internshipRepository.findAllByCompanyCompanyId(companyId, pageable);
+        return page.map(this::convertToDto);
     }
 
     public Optional<InternshipDto> getInternshipById(String id)
     {
         return internshipRepository.findById(id)
-                .map(internship -> modelMapper.map(internship, InternshipDto.class));
-    }
-
-    public List<InternshipDto> getInternshipByCompany(String companyId)
-    {
-        return internshipRepository.findAllByCompany_CompanyId(companyId)
-                .stream()
-                .map(internship -> modelMapper.map(internship, InternshipDto.class))
-                .toList();
+                .map(this::convertToDto);
     }
 
     public InternshipDto updateInternship(String internshipId, InternshipDto internshipDetails)
@@ -77,15 +79,27 @@ public class InternshipService
 
                     Internship savedInternship = internshipRepository.save(internship);
 
-                    return modelMapper.map(savedInternship, InternshipDto.class);
+                    return convertToDto(savedInternship);
                 })
-                .orElseThrow(() -> new InternshipNotFoundException("Internship not found with id: " + internshipId));
+                .orElseThrow(() -> new InternshipNotFoundException(internshipId));
     }
 
     public void deleteInternship(String id)
     {
         Internship internship = internshipRepository.findById(id)
-                .orElseThrow(() -> new InternshipNotFoundException("Internship not found with id: " + id));
+                .orElseThrow(() -> new InternshipNotFoundException(id));
         internshipRepository.delete(internship);
+    }
+
+    public List<String> getAllLocations() {
+        return internshipRepository.findDistinctLocations();
+    }
+
+    public List<String> getAllFields() {
+        return internshipRepository.findDistinctFields();
+    }
+
+    private InternshipDto convertToDto(Internship internship) {
+        return modelMapper.map(internship, InternshipDto.class);
     }
 }
