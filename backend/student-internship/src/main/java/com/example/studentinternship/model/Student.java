@@ -7,13 +7,14 @@ public class Student extends User
 {
     private String university;
 
-    @Override
+    public Student() {
+    }
+
     public String getUniversity()
     {
         return university;
     }
 
-    @Override
     public void setUniversity(String university)
     {
         this.university = university;

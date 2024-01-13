@@ -11,6 +11,14 @@ public class Recruiter extends User {
     @JoinColumn(name = "companyId")
     private Company company;
 
+    Recruiter(String id, String name, String email, String password, Role role) {
+        super(id, name, email, password, role);
+    }
+
+    public Recruiter() {
+
+    }
+
     public Company getCompany()
     {
         return company;
