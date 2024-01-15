@@ -7,6 +7,7 @@ import { RecruiterHomepage } from "./pages/recruiter/recruiter-homepage";
 import { ProtectedRoute } from "./utils/protected-route";
 import { LoggedIn } from "./utils/logged-in";
 import InternshipList from "./companies/InternshipList";
+import { EditCompanyPage } from "./pages/edit-company/edit-company";
 
 function App() {
   return (
@@ -50,6 +51,14 @@ function App() {
           element={
             <ProtectedRoute>
               <InternshipList />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/recruiter/edit-company"
+          element={
+            <ProtectedRoute>
+              <EditCompanyPage />
             </ProtectedRoute>
           }
         />
