@@ -1,27 +1,48 @@
 import {
-    Box,
-    Button,
-    CssBaseline,
-    TextField,
-    ThemeProvider,
-    Typography,
-    createTheme,
+  Box,
+  Button,
+  CssBaseline,
+  TextField,
+  ThemeProvider,
+  Typography,
+  createTheme,
 } from "@mui/material";
 import { Container } from "@mui/system";
-import React, { useState } from "react";
-import { Internship } from "../../models/internship";
+import React, { useEffect, useState } from "react";
+import { CreateInternship } from "../../models/create-internship-request";
+import { useNavigate } from "react-router-dom";
+import { createInternship } from "../../services/internship/internship-service";
 
 const defaultTheme = createTheme();
 
 export const CreateInternshipPage = () => {
-  const [internship, setInternship] = useState<Internship>({
+  const [internship, setInternship] = useState<CreateInternship>({
     title: "",
     description: "",
     location: "",
     field: "",
     salary: 0,
     positions: 0,
+    userId: localStorage.getItem("userId") || "",
   });
+
+  const navigate = useNavigate();
+  const token = localStorage.getItem("token");
+
+  useEffect(() => {
+    if (token) {
+      const role = localStorage.getItem("role")?.toLowerCase();
+      if (role !== "recruiter") {
+        if (role === "student") {
+          navigate("/student/home");
+        } else {
+          navigate("/authenticate");
+        }
+      }
+    } else {
+      navigate("/authenticate");
+    }
+  }, [token]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -34,7 +55,14 @@ export const CreateInternshipPage = () => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log(internship);
+    createInternship(internship)
+      .then((response) => {
+        console.log(response);
+        navigate("/recruiter/home");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (

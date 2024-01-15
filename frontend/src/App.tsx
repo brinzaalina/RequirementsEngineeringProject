@@ -1,5 +1,5 @@
-import './App.css';
-import { CreateInternshipPage } from './pages/create-internship/create-internship';
+import "./App.css";
+import { CreateInternshipPage } from "./pages/create-internship/create-internship";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { LoginRegisterPage } from "./pages/login-register/login-register";
 import { StudentHomepage } from "./pages/student/student-homepage";
@@ -36,11 +36,14 @@ function App() {
             </ProtectedRoute>
           }
         />
-        <Route path='/create-internship' element={
-          <ProtectedRoute>
-            <CreateInternshipPage />
-          </ProtectedRoute>
-        } />
+        <Route
+          path="/create-internship"
+          element={
+            <ProtectedRoute>
+              <CreateInternshipPage />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
     </>
   );

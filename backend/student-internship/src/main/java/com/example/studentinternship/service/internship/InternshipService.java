@@ -1,11 +1,15 @@
 package com.example.studentinternship.service.internship;
 
+import com.example.studentinternship.dto.CreateInternshipDto;
 import com.example.studentinternship.dto.InternshipDto;
 import com.example.studentinternship.exception.CompanyNotFoundException;
 import com.example.studentinternship.exception.InternshipNotFoundException;
+import com.example.studentinternship.exception.NotFoundException;
 import com.example.studentinternship.model.Internship;
+import com.example.studentinternship.model.Recruiter;
 import com.example.studentinternship.repository.CompanyRepository;
 import com.example.studentinternship.repository.InternshipRepository;
+import com.example.studentinternship.repository.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,25 +26,30 @@ public class InternshipService
 
     private final CompanyRepository companyRepository;
 
+    private final UserRepository userRepository;
+
     private final ModelMapper modelMapper;
 
-    public InternshipService(InternshipRepository internshipRepository, CompanyRepository companyRepository, ModelMapper modelMapper)
+    public InternshipService(InternshipRepository internshipRepository, CompanyRepository companyRepository, UserRepository userRepository, ModelMapper modelMapper)
     {
         this.internshipRepository = internshipRepository;
         this.companyRepository = companyRepository;
+        this.userRepository = userRepository;
         this.modelMapper = modelMapper;
     }
 
-    public InternshipDto createInternship(InternshipDto internshipDto)
+    public InternshipDto createInternship(CreateInternshipDto internshipDto)
     {
-        return companyRepository.findById(internshipDto.getCompanyId())
+        Recruiter recruiter = (Recruiter) userRepository.findById(internshipDto.getUserId())
+                .orElseThrow(() -> new NotFoundException(internshipDto.getUserId()));
+        return companyRepository.findById(recruiter.getCompany().getCompanyId())
                 .map(company ->
                 {
                     Internship internship = modelMapper.map(internshipDto, Internship.class);
                     internship.setCompany(company);
                     return convertToDto(internshipRepository.save(internship));
                 })
-                .orElseThrow(() -> new CompanyNotFoundException(internshipDto.getCompanyId()));
+                .orElseThrow(() -> new CompanyNotFoundException(recruiter.getCompany().getCompanyId()));
     }
 
     public Page<InternshipDto> getAllInternships(
