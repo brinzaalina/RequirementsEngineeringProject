@@ -23,7 +23,7 @@ export const loginUser = (
   });
 };
 
-export const registerUser = (registerRequest: RegisterRequest, role: string) => {
+export const registerUser = (registerRequest: RegisterRequest, role: string): Promise<AuthenticationResponse> => {
     return new Promise((resolve, reject) => {
         axios
             .post<AuthenticationResponse>(

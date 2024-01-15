@@ -12,10 +12,12 @@ import {
 } from "@mui/material";
 import { AuthenticationRequest } from "../../models/auth-request";
 import { loginUser } from "../../services/auth/auth-service";
+import { useNavigate } from "react-router-dom";
 
 const defaultTheme = createTheme();
 
 export const LoginComponent = () => {
+  const navigate = useNavigate();
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const authRequest: AuthenticationRequest = {
@@ -25,6 +27,13 @@ export const LoginComponent = () => {
     loginUser(authRequest)
       .then((response) => {
         console.log(response);
+        localStorage.setItem("token", response.token);
+        localStorage.setItem("role", response.role);
+        localStorage.setItem("userId", response.userId);
+        localStorage.setItem("email", response.email);
+        localStorage.setItem("availability", response.availability.toString());
+        const role = response.role.toLowerCase();
+        navigate("/" + role + "/home");
       })
       .catch((error) => {
         console.log(error);

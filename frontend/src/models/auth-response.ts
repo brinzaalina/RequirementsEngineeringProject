@@ -3,4 +3,5 @@ export type AuthenticationResponse = {
     email: string;
     userId: string;
     availability: number;
+    role: string;
 };

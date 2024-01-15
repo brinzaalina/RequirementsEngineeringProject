@@ -17,10 +17,12 @@ import {
 import { useState } from "react";
 import { RegisterRequest } from "../../models/register-request";
 import { registerUser } from "../../services/auth/auth-service";
+import { useNavigate } from "react-router-dom";
 
 const defaultTheme = createTheme();
 
 export const RegisterComponent = () => {
+  const navigate = useNavigate();
   const [userType, setUserType] = useState<string>("student");
   const [password, setPassword] = useState<string>("");
   const [passwordMatchError, setPasswordMatchError] = useState<boolean>(false);
@@ -45,9 +47,17 @@ export const RegisterComponent = () => {
       console.log("Passwords do not match");
       return;
     }
+
     registerUser(registerRequest, userType)
       .then((response) => {
         console.log(response);
+        localStorage.setItem("token", response.token);
+        localStorage.setItem("role", response.role);
+        localStorage.setItem("userId", response.userId);
+        localStorage.setItem("email", response.email);
+        localStorage.setItem("availability", response.availability.toString());
+        const role = response.role.toLowerCase();
+        navigate("/" + role + "/home");
       })
       .catch((error) => {
         console.log(error);

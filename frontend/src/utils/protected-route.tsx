@@ -8,6 +8,7 @@ export const ProtectedRoute = (props: any) => {
     const [isAuthenticated, setIsAuthenticated] = useState(isUserAuthenticated());
     const checkUserToken = () => {
         const userToken = localStorage.getItem('token');
+        console.log(userToken);
         if (!userToken || userToken === 'undefined') {
             setIsAuthenticated(false);
             return navigate('/authenticate');
