@@ -17,9 +17,12 @@ const StudentBrowseInternshipsPage: React.FC = () => {
         salaryFilter: undefined as boolean | undefined,
     });
 
+    // Load data on startup and when page changes
     useEffect(() => {
-        // Fetch internships based on filter and search
-        console.log("The filter values are: ", filterValues);
+        fetchData('');
+    }, [currentPage]);
+
+    const fetchData = (searchTerm: string) => {
         axios.get(`http://localhost:8080/api/internships`, {
             params: {
                 locations: filterValues.locations.join(','),
@@ -27,7 +30,7 @@ const StudentBrowseInternshipsPage: React.FC = () => {
                 salaryFilter: filterValues.salaryFilter,
                 titleSearch: searchTerm,
                 page: currentPage - 1,
-                size: 3,
+                size: 3, // Adjust the size as per your requirement
             },
         })
             .then(response => {
@@ -35,20 +38,20 @@ const StudentBrowseInternshipsPage: React.FC = () => {
                 setTotalPages(response.data.totalPages);
             })
             .catch(error => console.error('Error fetching internships', error));
-    }, [currentPage, searchTerm, filterValues]);
+    };
 
     const handlePageChange = (page: number) => {
         setCurrentPage(page);
     };
 
     const handleSearch = (term: string) => {
-        setSearchTerm(term);
+        setSearchTerm(term); // Update the search term state
         setCurrentPage(1); // Reset to first page on new search
+        fetchData(searchTerm); // Fetch data with the new search term
     };
 
     const handleFilterChange = (newFilterValues: any) => {
         setFilterValues(newFilterValues);
-        // setCurrentPage(1); // Reset to first page on new filter
     };
 
     return (
@@ -56,7 +59,7 @@ const StudentBrowseInternshipsPage: React.FC = () => {
             <Grid item xs={12} md={3}>
                 <Filter onFilterChange={handleFilterChange}/>
             </Grid>
-            <Grid item xs={12} md={8} sx={{ paddingRight: 4 }}>
+            <Grid item xs={12} md={8} sx={{paddingRight: 4}}>
                 <SearchBar onSearch={handleSearch}/>
                 <StudentInternshipList
                     internships={internships}
