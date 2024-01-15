@@ -19,11 +19,22 @@ public class AuthenticationController {
         this.authenticationService = authenticationService;
     }
 
-    @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody RegisterRequest registerRequest) {
+    @PostMapping("/register/student")
+    public ResponseEntity<?> registerStudent(@RequestBody RegisterRequest registerRequest) {
         logger.log(Level.INFO, "Incoming register request");
         try {
-            var authenticationResponse = authenticationService.register(registerRequest);
+            var authenticationResponse = authenticationService.registerStudent(registerRequest);
+            return new ResponseEntity<>(authenticationResponse, HttpStatus.OK);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping("/register/recruiter")
+    public ResponseEntity<?> registerRecruiter(@RequestBody RegisterRequest registerRequest) {
+        logger.log(Level.INFO, "Incoming register request");
+        try {
+            var authenticationResponse = authenticationService.registerRecruiter(registerRequest);
             return new ResponseEntity<>(authenticationResponse, HttpStatus.OK);
         } catch (IllegalArgumentException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
