@@ -33,6 +33,11 @@ public class CompanyService
         return companyRepository.findById(id);
     }
 
+    public Optional<Company> getCompanyByName(String name)
+    {
+        return companyRepository.findByCompanyName(name);
+    }
+
     public Company updateCompany(String id, Company companyDetails)
     {
         Company company = companyRepository.findById(id)
