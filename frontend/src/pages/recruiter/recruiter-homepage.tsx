@@ -1,7 +1,7 @@
 import { Button, Container, Typography } from "@mui/material";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import InternshipList from "../../companies/InternshipList";
+
 export const RecruiterHomepage = () => {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");

@@ -1,6 +1,6 @@
 import React from 'react';
 import {CardContent, Typography, Button, CardActions, Card} from '@mui/material';
-import InternshipCompanyDto from "../models/InternshipCompanyDto";
+import InternshipCompanyDto from "../../models/InternshipCompanyDto";
 
 interface InternshipCardProps {
     internship: InternshipCompanyDto;
