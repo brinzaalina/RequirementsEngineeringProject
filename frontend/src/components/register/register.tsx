@@ -1,48 +1,67 @@
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import {
-    Avatar,
-    Box,
-    Button,
-    Container,
-    CssBaseline,
-    FormControlLabel,
-    Grid,
-    Radio,
-    RadioGroup,
-    TextField,
-    ThemeProvider,
-    Typography,
-    createTheme,
+  Avatar,
+  Box,
+  Button,
+  Container,
+  CssBaseline,
+  FormControlLabel,
+  Grid,
+  Radio,
+  RadioGroup,
+  TextField,
+  ThemeProvider,
+  Typography,
+  createTheme,
 } from "@mui/material";
 import { useState } from "react";
+import { RegisterRequest } from "../../models/register-request";
+import { registerUser } from "../../services/auth/auth-service";
+import { useNavigate } from "react-router-dom";
 
 const defaultTheme = createTheme();
 
 export const RegisterComponent = () => {
+  const navigate = useNavigate();
   const [userType, setUserType] = useState<string>("student");
   const [password, setPassword] = useState<string>("");
   const [passwordMatchError, setPasswordMatchError] = useState<boolean>(false);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const data = new FormData(e.currentTarget);
-    console.log({
-      firstName: data.get("firstName"),
-      lastName: data.get("lastName"),
-      email: data.get("email"),
-      password: data.get("password"),
-      userType: userType,
-      companyName: data.get("companyName"),
-      university: data.get("university"),
-      confirmPassword: data.get("confirmPassword"),
-    });
+    const institutionName: string =
+      userType === "student"
+        ? e.currentTarget.university.value
+        : e.currentTarget.companyName.value;
+    const registerRequest: RegisterRequest = {
+      email: e.currentTarget.email.value,
+      password: e.currentTarget.password.value,
+      institutionName: institutionName,
+      name:
+        e.currentTarget.firstName.value + " " + e.currentTarget.lastName.value,
+    };
     if (
       passwordMatchError ||
-      data.get("password") !== data.get("confirmPassword")
+      registerRequest.password !== e.currentTarget.confirmPassword.value
     ) {
       console.log("Passwords do not match");
       return;
     }
+
+    registerUser(registerRequest, userType)
+      .then((response) => {
+        console.log(response);
+        localStorage.setItem("token", response.token);
+        localStorage.setItem("role", response.role);
+        localStorage.setItem("userId", response.userId);
+        localStorage.setItem("email", response.email);
+        localStorage.setItem("availability", response.availability.toString());
+        const role = response.role.toLowerCase();
+        navigate("/" + role + "/home");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {

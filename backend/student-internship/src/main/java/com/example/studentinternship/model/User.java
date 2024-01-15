@@ -1,7 +1,6 @@
 package com.example.studentinternship.model;
 
 import jakarta.persistence.*;
-import lombok.Builder;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -10,7 +9,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 
-@Builder
 @Entity(name="users")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class User implements UserDetails
@@ -25,8 +23,7 @@ public class User implements UserDetails
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    public User(String id, String name, String email, String password, Role role) {
-        this.id = id;
+    public User(String name, String email, String password, Role role) {
         this.name = name;
         this.email = email;
         this.password = password;
@@ -38,11 +35,6 @@ public class User implements UserDetails
     public String getId()
     {
         return id;
-    }
-
-    public void setId(String id)
-    {
-        this.id = id;
     }
 
     public String getName()

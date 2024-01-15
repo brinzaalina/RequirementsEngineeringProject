@@ -12,13 +12,13 @@ export const LoggedIn = (props: any) => {
             setIsAuthenticated(false);
         } else {
             setIsAuthenticated(true);
-            const userType = localStorage.getItem('userType');
+            const userType = localStorage.getItem('role')?.toLowerCase();
             if (userType === 'student') {
                 navigate('/student/home');
             } else if (userType === 'recruiter') {
                 navigate('/recruiter/home');
             } else {
-                navigate('/login');
+                navigate('/authenticate');
             }
         }
     };
