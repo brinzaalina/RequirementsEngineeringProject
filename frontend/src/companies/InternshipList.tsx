@@ -2,21 +2,30 @@ import React, { useState, useEffect } from 'react';
 import { Pagination, Box } from '@mui/material';
 import axios from 'axios';
 import InternshipCard from './InternshipCard';
-import Internship from "../model/Internship";
+import InternshipCompanyDto from "../models/InternshipCompanyDto";
 
 const InternshipList: React.FC = () => {
-    const [internships, setInternships] = useState<Internship[]>([]);
+    const [internships, setInternships] = useState<InternshipCompanyDto[]>([]);
     const [page, setPage] = useState<number>(1);
     const [totalPages, setTotalPages] = useState<number>(0);
 
     useEffect(() => {
-        const companyId = "0b7b2efd-e98e-4bd8-bb2f-1310e3c4a889"; // localStorage.getItem('companyId');
-        axios.get(`http://localhost:8080/api/companies/internships/all/${companyId}?page=${page - 1}&size=2`)
-            .then(response => {
-                setInternships(response.data.content);
-                setTotalPages(response.data.totalPages);
-            })
-            .catch(error => console.error('Error fetching internships', error));
+        const userId = localStorage.getItem('userId');
+        if (userId) {
+            axios.get(`http://localhost:8080/api/companies/user/${userId}`)
+                .then(response => {
+                    // Extract the companyId from the response
+                    const { companyId } = response.data;
+                    // Now that you have the companyId, fetch the internships
+                    return axios.get(`http://localhost:8080/api/companies/internships/all/${companyId}?page=${page - 1}&size=2`);
+                })
+                .then(response => {
+                    // Set the internships and total pages state
+                    setInternships(response.data.content);
+                    setTotalPages(response.data.totalPages);
+                })
+                .catch(error => console.error('Error fetching internships', error));
+        }
     }, [page]);
 
     const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {

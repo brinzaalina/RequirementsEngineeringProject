@@ -1,4 +1,4 @@
-interface Internship {
+interface InternshipCompanyDto {
     internshipId: string;
     title: string;
     description: string;
@@ -9,4 +9,4 @@ interface Internship {
     positions: number;
 }
 
-export default Internship;
+export default InternshipCompanyDto;
