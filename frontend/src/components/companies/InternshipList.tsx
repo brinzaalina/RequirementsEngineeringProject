@@ -80,6 +80,9 @@ const InternshipList: React.FC = () => {
         onChange={handlePageChange}
         sx={{ marginTop: 2 }}
       />
+        <Button variant="contained" onClick={() => navigate("/recruiter/home")}>
+            Back to Homepage
+        </Button>
       <Button
         variant="contained"
         onClick={() => navigate("/create-internship")}
