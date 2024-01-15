@@ -58,7 +58,7 @@ export const CreateInternshipPage = () => {
     createInternship(internship)
       .then((response) => {
         console.log(response);
-        navigate("/recruiter/home");
+        navigate("/recruiter/internships");
       })
       .catch((error) => {
         console.log(error);
