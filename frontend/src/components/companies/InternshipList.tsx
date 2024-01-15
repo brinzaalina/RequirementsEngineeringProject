@@ -55,19 +55,6 @@ const InternshipList: React.FC = () => {
       <Typography variant="h6" component="h2">
         Internships
       </Typography>
-      <Button variant="contained" onClick={() => navigate("/recruiter/home")}>
-        Back to Homepage
-      </Button>
-      
-      <Button
-        variant="contained"
-        onClick={() => navigate("/create-internship")}
-        sx={{
-          marginTop: 2,
-        }}
-      >
-        Create Internship
-      </Button>
       <Pagination
         count={totalPages}
         page={page}
@@ -93,6 +80,15 @@ const InternshipList: React.FC = () => {
         onChange={handlePageChange}
         sx={{ marginTop: 2 }}
       />
+      <Button
+        variant="contained"
+        onClick={() => navigate("/create-internship")}
+        sx={{
+          marginTop: 2,
+        }}
+      >
+        Create Internship
+      </Button>
     </Box>
   );
 };
