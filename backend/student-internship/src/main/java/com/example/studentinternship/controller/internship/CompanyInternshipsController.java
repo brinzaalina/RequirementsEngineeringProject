@@ -1,5 +1,6 @@
 package com.example.studentinternship.controller.internship;
 
+import com.example.studentinternship.dto.CreateInternshipDto;
 import com.example.studentinternship.dto.InternshipDto;
 import com.example.studentinternship.exception.InternshipNotFoundException;
 import com.example.studentinternship.service.internship.InternshipService;
@@ -7,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -21,7 +23,7 @@ public class CompanyInternshipsController
     }
 
     @PostMapping
-    public ResponseEntity<InternshipDto> createInternship(@RequestBody InternshipDto internshipDto)
+    public ResponseEntity<InternshipDto> createInternship(@RequestBody CreateInternshipDto internshipDto)
     {
         InternshipDto newCompany = internshipService.createInternship(internshipDto);
         return new ResponseEntity<>(newCompany, HttpStatus.CREATED);
