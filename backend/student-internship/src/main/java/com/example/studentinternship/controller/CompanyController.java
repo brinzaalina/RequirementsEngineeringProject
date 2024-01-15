@@ -45,10 +45,10 @@ public class CompanyController
     }
 
     @GetMapping("/user/{userId}")
-    public ResponseEntity<CompanyDto> getCompanyByUserId(@PathVariable(value = "userId") String companyId)
+    public ResponseEntity<CompanyDto> getCompanyByUserId(@PathVariable(value = "userId") String userId)
     {
-        CompanyDto company = companyService.getCompanyByUserId(companyId)
-                .orElseThrow(() -> new CompanyNotFoundException(companyId));
+        CompanyDto company = companyService.getCompanyByUserId(userId)
+                .orElseThrow(() -> new CompanyNotFoundException(userId));
         return ResponseEntity.ok().body(company);
     }
 
