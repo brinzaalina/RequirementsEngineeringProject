@@ -1,7 +1,9 @@
 package com.example.studentinternship.auth;
 
 import com.example.studentinternship.configuration.JwtService;
+import com.example.studentinternship.model.Recruiter;
 import com.example.studentinternship.model.Role;
+import com.example.studentinternship.model.Student;
 import com.example.studentinternship.model.User;
 import com.example.studentinternship.repository.UserRepository;
 import com.example.studentinternship.service.UserService;
@@ -31,15 +33,32 @@ public class AuthenticationService {
         this.userService = userService;
     }
 
-    public AuthenticationResponse register(RegisterRequest registerRequest) {
-        var user = User.builder()
-                .email(registerRequest.getEmail())
-                .password(passwordEncoder.encode(registerRequest.getPassword()))
-                .role(Role.STUDENT)
-                .build();
-
+    public AuthenticationResponse registerRecruiter(RegisterRequest registerRequest) {
+        var user = new Recruiter(registerRequest.getName(),
+                registerRequest.getEmail(),
+                passwordEncoder.encode(registerRequest.getPassword()),
+                Role.RECRUITER);
+        //TODO check based on registerRequest.getInstitution() if there is any company with the specified name
         User saved = userService.save(user);
-        var tokenAvailability = user.getRole().equals(Role.RECRUITER) ? 30 : 1;
+        var tokenAvailability = 30;
+        var jwtToken = jwtService.generateToken(user, tokenAvailability);
+        Long availability = jwtService.extractExpiration(jwtToken).getTime();
+        return AuthenticationResponse.builder()
+                .userId(saved.getId())
+                .token(jwtToken)
+                .availability(availability)
+                .email(user.getEmail())
+                .build();
+    }
+
+    public AuthenticationResponse registerStudent(RegisterRequest registerRequest) {
+        var user = new Student(registerRequest.getName(),
+                registerRequest.getEmail(),
+                passwordEncoder.encode(registerRequest.getPassword()),
+                Role.STUDENT,
+                registerRequest.getInstitutionName());
+        User saved = userService.save(user);
+        var tokenAvailability = 1;
         var jwtToken = jwtService.generateToken(user, tokenAvailability);
         Long availability = jwtService.extractExpiration(jwtToken).getTime();
         return AuthenticationResponse.builder()
