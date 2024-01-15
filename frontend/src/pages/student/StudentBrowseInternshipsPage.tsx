@@ -47,7 +47,7 @@ const StudentBrowseInternshipsPage: React.FC = () => {
     const handleSearch = (term: string) => {
         setSearchTerm(term); // Update the search term state
         setCurrentPage(1); // Reset to first page on new search
-        fetchData(searchTerm); // Fetch data with the new search term
+        fetchData(term); // Fetch data with the new search term
     };
 
     const handleFilterChange = (newFilterValues: any) => {
