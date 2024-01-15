@@ -1,7 +1,6 @@
 import { Button, Container, Typography } from "@mui/material";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import InternshipList from "../../companies/InternshipList";
 export const RecruiterHomepage = () => {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
@@ -40,6 +39,15 @@ export const RecruiterHomepage = () => {
           alignItems: "center",
         }}
       >
+        <Button
+          variant="contained"
+          onClick={() => navigate("/recruiter/edit-company")}
+          sx={{
+            marginTop: 1,
+          }}
+        >
+            Edit company profile
+        </Button>
         <Button
           variant="contained"
           onClick={() => navigate("/recruiter/internships")}
