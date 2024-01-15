@@ -1,20 +1,22 @@
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import {
-    Avatar,
-    Box,
-    Button,
-    Container,
-    CssBaseline,
-    FormControlLabel,
-    Grid,
-    Radio,
-    RadioGroup,
-    TextField,
-    ThemeProvider,
-    Typography,
-    createTheme,
+  Avatar,
+  Box,
+  Button,
+  Container,
+  CssBaseline,
+  FormControlLabel,
+  Grid,
+  Radio,
+  RadioGroup,
+  TextField,
+  ThemeProvider,
+  Typography,
+  createTheme,
 } from "@mui/material";
 import { useState } from "react";
+import { RegisterRequest } from "../../models/register-request";
+import { registerUser } from "../../services/auth/auth-service";
 
 const defaultTheme = createTheme();
 
@@ -25,24 +27,31 @@ export const RegisterComponent = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const data = new FormData(e.currentTarget);
-    console.log({
-      firstName: data.get("firstName"),
-      lastName: data.get("lastName"),
-      email: data.get("email"),
-      password: data.get("password"),
-      userType: userType,
-      companyName: data.get("companyName"),
-      university: data.get("university"),
-      confirmPassword: data.get("confirmPassword"),
-    });
+    const institutionName: string =
+      userType === "student"
+        ? e.currentTarget.university.value
+        : e.currentTarget.companyName.value;
+    const registerRequest: RegisterRequest = {
+      email: e.currentTarget.email.value,
+      password: e.currentTarget.password.value,
+      institutionName: institutionName,
+      name:
+        e.currentTarget.firstName.value + " " + e.currentTarget.lastName.value,
+    };
     if (
       passwordMatchError ||
-      data.get("password") !== data.get("confirmPassword")
+      registerRequest.password !== e.currentTarget.confirmPassword.value
     ) {
       console.log("Passwords do not match");
       return;
     }
+    registerUser(registerRequest, userType)
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
