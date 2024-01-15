@@ -1,10 +1,8 @@
 package com.example.studentinternship.auth;
 
 import com.example.studentinternship.configuration.JwtService;
-import com.example.studentinternship.model.Recruiter;
-import com.example.studentinternship.model.Role;
-import com.example.studentinternship.model.Student;
-import com.example.studentinternship.model.User;
+import com.example.studentinternship.model.*;
+import com.example.studentinternship.repository.CompanyRepository;
 import com.example.studentinternship.repository.UserRepository;
 import com.example.studentinternship.service.UserService;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -20,17 +18,19 @@ public class AuthenticationService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
     private final UserService userService;
+    private final CompanyRepository companyRepository;
 
     public AuthenticationService(UserRepository userRepository,
                                  PasswordEncoder passwordEncoder,
                                  JwtService jwtService,
                                  AuthenticationManager authenticationManager,
-                                 UserService userService) {
+                                 UserService userService, CompanyRepository companyRepository) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtService = jwtService;
         this.authenticationManager = authenticationManager;
         this.userService = userService;
+        this.companyRepository = companyRepository;
     }
 
     public AuthenticationResponse registerRecruiter(RegisterRequest registerRequest) {
@@ -38,7 +38,15 @@ public class AuthenticationService {
                 registerRequest.getEmail(),
                 passwordEncoder.encode(registerRequest.getPassword()),
                 Role.RECRUITER);
-        //TODO check based on registerRequest.getInstitution() if there is any company with the specified name
+        if (companyRepository.findByCompanyName(registerRequest.getInstitutionName()).isEmpty()) {
+            Company company = new Company();
+            company.setCompanyName(registerRequest.getInstitutionName());
+            companyRepository.save(company);
+            user.setCompany(company);
+        } else {
+            Company company = companyRepository.findByCompanyName(registerRequest.getInstitutionName()).get();
+            user.setCompany(company);
+        }
         User saved = userService.save(user);
         var tokenAvailability = 30;
         var jwtToken = jwtService.generateToken(user, tokenAvailability);
