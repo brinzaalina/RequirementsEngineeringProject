@@ -40,8 +40,3 @@ export const isUserAuthenticated = () => {
         }
     }
 };
-
-export const handleLogout = () => {
-    localStorage.removeItem("userType");
-    localStorage.removeItem("token");
-};
