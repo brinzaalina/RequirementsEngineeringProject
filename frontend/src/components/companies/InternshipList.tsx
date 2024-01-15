@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Pagination, Box, Button, Typography } from "@mui/material";
 import axios from "axios";
 import InternshipCard from "./InternshipCard";
-import InternshipCompanyDto from "../models/InternshipCompanyDto";
 import { useNavigate } from "react-router-dom";
+import InternshipCompanyDto from "../../models/InternshipCompanyDto";
 
 const InternshipList: React.FC = () => {
   const [internships, setInternships] = useState<InternshipCompanyDto[]>([]);

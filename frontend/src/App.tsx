@@ -6,7 +6,8 @@ import { StudentHomepage } from "./pages/student/student-homepage";
 import { RecruiterHomepage } from "./pages/recruiter/recruiter-homepage";
 import { ProtectedRoute } from "./utils/protected-route";
 import { LoggedIn } from "./utils/logged-in";
-import InternshipList from "./companies/InternshipList";
+import InternshipList from "./components/companies/InternshipList";
+import StudentBrowseInternshipsPage from "./pages/student/StudentBrowseInternshipsPage";
 import { EditCompanyPage } from "./pages/edit-company/edit-company";
 
 function App() {
@@ -30,6 +31,14 @@ function App() {
             </ProtectedRoute>
           }
         />
+          <Route
+              path="/student/browse-internships"
+              element={
+                  <ProtectedRoute>
+                      <StudentBrowseInternshipsPage />
+                  </ProtectedRoute>
+              }
+          />
         <Route
           path="/recruiter/home"
           element={
