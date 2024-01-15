@@ -5,6 +5,7 @@ import { StudentHomepage } from "./pages/student/student-homepage";
 import { RecruiterHomepage } from "./pages/recruiter/recruiter-homepage";
 import { ProtectedRoute } from "./utils/protected-route";
 import { LoggedIn } from "./utils/logged-in";
+import InternshipList from "./companies/InternshipList";
 
 function App() {
   return (
@@ -35,6 +36,14 @@ function App() {
             </ProtectedRoute>
           }
         />
+          <Route
+              path="/recruiter/internships"
+              element={
+                  <ProtectedRoute>
+                      <InternshipList />
+                  </ProtectedRoute>
+              }
+          />
       </Routes>
     </>
   );
