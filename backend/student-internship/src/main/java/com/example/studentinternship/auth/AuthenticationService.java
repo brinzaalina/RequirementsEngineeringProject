@@ -48,6 +48,7 @@ public class AuthenticationService {
                 .token(jwtToken)
                 .availability(availability)
                 .email(user.getEmail())
+                .role(user.getRole().name())
                 .build();
     }
 
@@ -66,6 +67,7 @@ public class AuthenticationService {
                 .token(jwtToken)
                 .availability(availability)
                 .email(user.getEmail())
+                .role(user.getRole().name())
                 .build();
     }
 
@@ -86,6 +88,7 @@ public class AuthenticationService {
                 .userId(user.getId())
                 .availability(availability)
                 .email(user.getEmail())
+                .role(user.getRole().name())
                 .build();
     }
 
