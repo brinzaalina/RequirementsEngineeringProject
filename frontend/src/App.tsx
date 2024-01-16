@@ -8,6 +8,7 @@ import { ProtectedRoute } from "./utils/protected-route";
 import { LoggedIn } from "./utils/logged-in";
 import InternshipList from "./components/companies/InternshipList";
 import StudentBrowseInternshipsPage from "./pages/student/StudentBrowseInternshipsPage";
+import InternshipDetailsPage from "./pages/student/internshipDetailsPage";
 
 function App() {
   return (
@@ -62,6 +63,14 @@ function App() {
             </ProtectedRoute>
           }
         />
+          <Route
+              path="/internship-details/:internshipId"
+              element={
+                  <ProtectedRoute>
+                      <InternshipDetailsPage />
+                  </ProtectedRoute>
+              }
+          />
       </Routes>
     </>
   );
