@@ -3,6 +3,7 @@ import {
   Card,
   CardActions,
   CardContent,
+  Container,
   List,
   ListItemText,
   Typography,
@@ -81,13 +82,30 @@ export const CandidatesPage = () => {
   };
 
   return (
-    <>
-      <Typography variant="h4" component="h1" gutterBottom>
+    <Container
+      sx={{
+        marginTop: 4,
+        textAlign: "center",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+      }}
+    >
+      <Typography
+        variant="h4"
+        component="h1"
+        align="center"
+        gutterBottom
+        sx={{
+          marginTop: 4,
+        }}
+      >
         Internship Candidates
       </Typography>
       <Button
         variant="contained"
         onClick={() => navigate("/recruiter/internships")}
+        sx={{ marginTop: 2, marginBottom: 2, borderRadius: 5 }}
       >
         Back to internships
       </Button>
@@ -106,6 +124,8 @@ export const CandidatesPage = () => {
               padding: 2,
               border: "1px solid #ccc",
               borderRadius: "25px",
+              display: "flex",
+              flexDirection: "column",
             }}
           >
             <CardContent>
@@ -115,11 +135,19 @@ export const CandidatesPage = () => {
               <ListItemText primary={"Status: " + application.status} />
             </CardContent>
             {application.status === "APPLIED" && (
-              <CardActions>
+              <CardActions
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-evenly",
+                }}
+              >
                 <Button
                   variant="contained"
                   color="success"
                   onClick={() => handleAccept(application.applicationId)}
+                  sx={{
+                    borderRadius: 5,
+                  }}
                 >
                   Accept
                 </Button>
@@ -127,6 +155,9 @@ export const CandidatesPage = () => {
                   variant="contained"
                   color="error"
                   onClick={() => handleReject(application.applicationId)}
+                  sx={{
+                    borderRadius: 5,
+                  }}
                 >
                   Reject
                 </Button>
@@ -135,6 +166,6 @@ export const CandidatesPage = () => {
           </Card>
         ))}
       </List>
-    </>
+    </Container>
   );
 };
