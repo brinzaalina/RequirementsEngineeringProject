@@ -72,16 +72,24 @@ export const EditCompanyPage = () => {
     <Container
       maxWidth="md"
       sx={{
-        marginTop: 1,
+        marginTop: 4,
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
+        textAlign: "center",
       }}
     >
-      <Typography variant="h6" component="h2">
-        Edit Company
+      <Typography variant="h4" component="h1" gutterBottom>
+        Edit Your Company
       </Typography>
-      <Button variant="contained" onClick={() => navigate("/recruiter/home")}>
+      <Button
+        variant="contained"
+        onClick={() => navigate("/recruiter/home")}
+        sx={{
+          marginTop: 2,
+          borderRadius: 5,
+        }}
+      >
         Back to Homepage
       </Button>
       <Box
@@ -110,7 +118,11 @@ export const EditCompanyPage = () => {
             marginTop: 2,
           }}
         />
-        <Button variant="contained" sx={{ marginTop: 2 }} type="submit">
+        <Button
+          variant="contained"
+          sx={{ marginTop: 2, borderRadius: 5 }}
+          type="submit"
+        >
           Save
         </Button>
       </Box>

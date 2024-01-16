@@ -26,9 +26,17 @@ export const StudentHomepage = () => {
   };
 
   return (
-    <div>
-      <Typography variant="h4" component="h1">
-        Student Homepage
+    <Container maxWidth="md" sx={{ marginTop: 4 }}>
+      <Typography
+        variant="subtitle1"
+        align="center"
+        color="textSecondary"
+        gutterBottom
+      >
+        Welcome to your Student Homepage! Explore exciting internship
+        opportunities and take the next step in your career journey. Feel free
+        to browse available internships and make the most of your experience. 
+        Happy exploring!
       </Typography>
       <Container
         maxWidth="md"
@@ -42,6 +50,10 @@ export const StudentHomepage = () => {
         <Button
           variant="contained"
           onClick={() => navigate("/student/browse-internships")}
+          sx={{
+            marginTop: 2,
+            borderRadius: 5,
+          }}
         >
           Browse Internships
         </Button>
@@ -49,12 +61,13 @@ export const StudentHomepage = () => {
           variant="contained"
           onClick={() => handleLogout()}
           sx={{
-            marginTop: 1,
+            marginTop: 2,
+            borderRadius: 5,
           }}
         >
           Logout
         </Button>
       </Container>
-    </div>
+    </Container>
   );
 };

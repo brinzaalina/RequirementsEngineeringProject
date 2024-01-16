@@ -21,7 +21,9 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
         onChange={(e) => setSearchTerm(e.target.value)}
         sx={{ marginRight: 2 }}
       />
-      <Button variant="contained" color="primary" onClick={handleSearch}>
+      <Button variant="contained" color="primary" onClick={handleSearch} sx={{
+        borderRadius: 5,
+      }}>
         Search
       </Button>
     </Box>
