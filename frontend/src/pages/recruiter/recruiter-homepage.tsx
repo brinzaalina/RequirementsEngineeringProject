@@ -26,9 +26,13 @@ export const RecruiterHomepage = () => {
   };
 
   return (
-    <div>
-      <Typography variant="h4" component="h1">
-        Recruiter Homepage
+    <Container maxWidth="md" sx={{ marginTop: 4, textAlign: "center" }}>
+      <Typography variant="h4" component="h1" gutterBottom>
+        Welcome, Recruiter!
+      </Typography>
+      <Typography variant="subtitle1" color="textSecondary" paragraph>
+        Explore the tools below to manage your company profile and view your
+        internships.
       </Typography>
       <Container
         maxWidth="md"
@@ -43,7 +47,8 @@ export const RecruiterHomepage = () => {
           variant="contained"
           onClick={() => navigate("/recruiter/edit-company")}
           sx={{
-            marginTop: 1,
+            marginTop: 2,
+            borderRadius: 5,
           }}
         >
           Edit company profile
@@ -52,21 +57,23 @@ export const RecruiterHomepage = () => {
           variant="contained"
           onClick={() => navigate("/recruiter/internships")}
           sx={{
-            marginTop: 1,
+            marginTop: 2,
+            borderRadius: 5,
           }}
         >
-          View Internships
+          View Your Internships
         </Button>
         <Button
           variant="contained"
           onClick={() => handleLogout()}
           sx={{
-            marginTop: 1,
+            marginTop: 2,
+            borderRadius: 5,
           }}
         >
           Logout
         </Button>
       </Container>
-    </div>
+    </Container>
   );
 };

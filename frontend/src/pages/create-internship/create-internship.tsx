@@ -82,6 +82,10 @@ export const CreateInternshipPage = () => {
           <Button
             variant="contained"
             onClick={() => navigate("/recruiter/internships")}
+            sx={{
+              marginTop: 2,
+              borderRadius: 5,
+            }}
           >
             Back
           </Button>
@@ -154,7 +158,7 @@ export const CreateInternshipPage = () => {
               type="submit"
               variant="contained"
               color="primary"
-              sx={{ mt: 3, mb: 2 }}
+              sx={{ mt: 3, mb: 2, borderRadius: 5 }}
               fullWidth
             >
               Create Internship

@@ -1,4 +1,4 @@
-import { Button, Grid } from "@mui/material";
+import { Button, Container, Grid, Typography } from "@mui/material";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -71,11 +71,19 @@ const StudentBrowseInternshipsPage: React.FC = () => {
   };
 
   return (
-    <>
+    <Container
+      sx={{
+        marginTop: 4,
+        marginBottom: 4,
+      }}
+    >
       <Button
         variant="contained"
         color="primary"
         onClick={() => navigate("/student/home")}
+        sx={{
+          borderRadius: 5,
+        }}
       >
         Back to Home
       </Button>
@@ -84,6 +92,9 @@ const StudentBrowseInternshipsPage: React.FC = () => {
           <Filter onFilterChange={handleFilterChange} />
         </Grid>
         <Grid item xs={12} md={8} sx={{ paddingRight: 4 }}>
+          <Typography variant="h5" align="center" gutterBottom>
+            Browse Internships
+          </Typography>
           <SearchBar onSearch={handleSearch} />
           <StudentInternshipList
             internships={internships}
@@ -93,7 +104,7 @@ const StudentBrowseInternshipsPage: React.FC = () => {
           />
         </Grid>
       </Grid>
-    </>
+    </Container>
   );
 };
 

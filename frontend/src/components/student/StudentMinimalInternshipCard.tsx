@@ -70,6 +70,9 @@ const StudentMinimalInternshipCard: React.FC<
           color="primary"
           variant="contained"
           onClick={handleViewDetails}
+          sx={{
+            borderRadius: 5,
+          }}
         >
           View Details
         </Button>

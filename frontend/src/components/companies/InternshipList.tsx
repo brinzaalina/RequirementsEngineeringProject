@@ -64,22 +64,26 @@ const InternshipList: React.FC = () => {
         width: "100%",
       }}
     >
-      <Typography variant="h6" component="h2">
+      <Typography variant="h4" component="h1" gutterBottom>
         Internships
       </Typography>
-      <Button variant="contained" onClick={() => navigate("/recruiter/home")}>
-        Back to Homepage
-      </Button>
+      <Box sx={{ width: "50%", display: "flex", justifyContent: "space-evenly", flexDirection: "row" }}>
+        <Button
+          variant="contained"
+          onClick={() => navigate("/recruiter/home")}
+          sx={{ marginTop: 2, marginBottom: 2, borderRadius: 5 }}
+        >
+          Back to Homepage
+        </Button>
 
-      <Button
-        variant="contained"
-        onClick={() => navigate("/create-internship")}
-        sx={{
-          marginTop: 2,
-        }}
-      >
-        Create Internship
-      </Button>
+        <Button
+          variant="contained"
+          onClick={() => navigate("/create-internship")}
+          sx={{ marginTop: 2, marginBottom: 2, borderRadius: 5 }}
+        >
+          Create Internship
+        </Button>
+      </Box>
       <Pagination
         count={totalPages}
         page={page}
