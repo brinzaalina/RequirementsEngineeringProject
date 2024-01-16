@@ -1,49 +1,47 @@
 package com.example.studentinternship.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 public class Application
 {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long applicationId;
-    private Long studentId; // Foreign Key
-    private Long internshipId; // Foreign Key
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
+    private String applicationId;
+    @ManyToOne
+    @JoinColumn(name = "studentId", nullable = false)
+    private Student student; // Foreign Key
+    @ManyToOne
+    @JoinColumn(name = "internshipId", nullable = false)
+    private Internship internship; // Foreign Key
     private String cvUri;
-    private String status; // "Applied", "Accepted", "Rejected"
+    @Enumerated(EnumType.STRING)
+    private ApplicationStatus status; // "Applied", "Accepted", "Rejected"
 
-    public Long getApplicationId()
-    {
+    public String getApplicationId() {
         return applicationId;
     }
 
-    public void setApplicationId(Long applicationId)
-    {
+    public void setApplicationId(String applicationId) {
         this.applicationId = applicationId;
     }
 
-    public Long getStudentId()
-    {
-        return studentId;
+    public Student getStudent() {
+        return student;
     }
 
-    public void setStudentId(Long studentId)
-    {
-        this.studentId = studentId;
+    public void setStudent(Student student) {
+        this.student = student;
     }
 
-    public Long getInternshipId()
-    {
-        return internshipId;
+    public Internship getInternship() {
+        return internship;
     }
 
-    public void setInternshipId(Long internshipId)
-    {
-        this.internshipId = internshipId;
+    public void setInternship(Internship internship) {
+        this.internship = internship;
     }
 
     public String getCvUri()
@@ -56,13 +54,22 @@ public class Application
         this.cvUri = cvUri;
     }
 
-    public String getStatus()
-    {
+    public ApplicationStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status)
-    {
+    public void setStatus(ApplicationStatus status) {
         this.status = status;
+    }
+
+    @Override
+    public String toString() {
+        return "Application{" +
+                "applicationId=" + applicationId +
+                ", student=" + student +
+                ", internship=" + internship +
+                ", cvUri='" + cvUri + '\'' +
+                ", status=" + status +
+                '}';
     }
 }

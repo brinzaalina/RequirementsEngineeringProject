@@ -1,8 +1,6 @@
 package com.example.studentinternship.configuration;
 
-import com.example.studentinternship.dto.CompanyDto;
 import com.example.studentinternship.dto.InternshipDto;
-import com.example.studentinternship.model.Company;
 import com.example.studentinternship.model.Internship;
 import com.example.studentinternship.repository.UserRepository;
 import com.example.studentinternship.service.UserDetailsServiceImpl;
