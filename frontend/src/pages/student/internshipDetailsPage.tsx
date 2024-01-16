@@ -1,10 +1,10 @@
 import {
-    Box,
-    Button,
-    Container,
-    Divider,
-    Paper,
-    Typography,
+  Box,
+  Button,
+  Container,
+  Divider,
+  Paper,
+  Typography,
 } from "@mui/material";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
@@ -19,8 +19,21 @@ const InternshipDetailsPage: React.FC = () => {
   const [companyDetails, setCompanyDetails] = useState<CompanyDto | null>(null);
   const { internshipId } = useParams<{ internshipId: string }>();
   const navigate = useNavigate();
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
+    if (token) {
+      const role = localStorage.getItem("role")?.toLowerCase();
+      if (role !== "student") {
+        if (role === "recruiter") {
+          navigate("/recruiter/home");
+        } else {
+          navigate("/authenticate");
+        }
+      }
+    } else {
+      navigate("/authenticate");
+    }
     if (internshipId) {
       // Fetch the internship details
       axios
@@ -37,7 +50,7 @@ const InternshipDetailsPage: React.FC = () => {
         })
         .catch((error) => console.error("Error fetching details", error));
     }
-  }, [internshipId]);
+  }, [internshipId, token]);
 
   if (!internshipDetails || !companyDetails) {
     return (

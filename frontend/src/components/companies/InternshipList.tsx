@@ -10,8 +10,20 @@ const InternshipList: React.FC = () => {
   const [page, setPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(0);
   const navigate = useNavigate();
-
+  const token = localStorage.getItem("token");
   useEffect(() => {
+    if (token) {
+      const role = localStorage.getItem("role")?.toLowerCase();
+      if (role !== "recruiter") {
+        if (role === "student") {
+          navigate("/student/home");
+        } else {
+          navigate("/authenticate");
+        }
+      }
+    } else {
+      navigate("/authenticate");
+    }
     const userId = localStorage.getItem("userId");
     if (userId) {
       axios
@@ -33,7 +45,7 @@ const InternshipList: React.FC = () => {
         })
         .catch((error) => console.error("Error fetching internships", error));
     }
-  }, [page]);
+  }, [page, token]);
 
   const handlePageChange = (
     event: React.ChangeEvent<unknown>,

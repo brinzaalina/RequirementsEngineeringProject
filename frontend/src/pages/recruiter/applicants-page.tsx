@@ -5,7 +5,7 @@ import {
   CardContent,
   List,
   ListItemText,
-  Typography
+  Typography,
 } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -20,8 +20,21 @@ export const CandidatesPage = () => {
   const { internshipId } = useParams<{ internshipId: string }>();
   const navigate = useNavigate();
   const [applications, setApplications] = useState<Application[]>([]);
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
+    if (token) {
+      const role = localStorage.getItem("role")?.toLowerCase();
+      if (role !== "recruiter") {
+        if (role === "student") {
+          navigate("/student/home");
+        } else {
+          navigate("/authenticate");
+        }
+      }
+    } else {
+      navigate("/authenticate");
+    }
     if (internshipId) {
       const headers = {
         headers: {
@@ -40,7 +53,7 @@ export const CandidatesPage = () => {
         })
         .catch((error) => console.error("Error fetching applications", error));
     }
-  }, [internshipId]);
+  }, [internshipId, token]);
 
   const handleAccept = (applicationId: string) => {
     acceptApplication(applicationId)

@@ -18,11 +18,24 @@ const StudentBrowseInternshipsPage: React.FC = () => {
     salaryFilter: undefined as boolean | undefined,
   });
   const navigate = useNavigate();
+  const token = localStorage.getItem("token");
 
   // Load data on startup and when page changes
   useEffect(() => {
+    if (token) {
+      const role = localStorage.getItem("role")?.toLowerCase();
+      if (role !== "student") {
+        if (role === "recruiter") {
+          navigate("/recruiter/home");
+        } else {
+          navigate("/authenticate");
+        }
+      }
+    } else {
+      navigate("/authenticate");
+    }
     fetchData("");
-  }, [currentPage]);
+  }, [currentPage, token]);
 
   const fetchData = (searchTerm: string) => {
     axios
