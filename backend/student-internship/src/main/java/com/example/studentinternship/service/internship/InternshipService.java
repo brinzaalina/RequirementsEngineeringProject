@@ -1,15 +1,13 @@
 package com.example.studentinternship.service.internship;
 
+import com.example.studentinternship.configuration.SecurityHelper;
 import com.example.studentinternship.dto.CreateInternshipDto;
 import com.example.studentinternship.dto.InternshipDto;
 import com.example.studentinternship.exception.CompanyNotFoundException;
 import com.example.studentinternship.exception.InternshipNotFoundException;
 import com.example.studentinternship.exception.NotFoundException;
-import com.example.studentinternship.model.Internship;
-import com.example.studentinternship.model.Recruiter;
-import com.example.studentinternship.repository.CompanyRepository;
-import com.example.studentinternship.repository.InternshipRepository;
-import com.example.studentinternship.repository.UserRepository;
+import com.example.studentinternship.model.*;
+import com.example.studentinternship.repository.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -28,13 +26,24 @@ public class InternshipService
 
     private final UserRepository userRepository;
 
+    private final ApplicationRepository applicationRepository;
+
+    private final StudentRepository studentRepository;
+
     private final ModelMapper modelMapper;
 
-    public InternshipService(InternshipRepository internshipRepository, CompanyRepository companyRepository, UserRepository userRepository, ModelMapper modelMapper)
+    public InternshipService(InternshipRepository internshipRepository,
+                             CompanyRepository companyRepository,
+                             UserRepository userRepository,
+                             ApplicationRepository applicationRepository,
+                             StudentRepository studentRepository,
+                             ModelMapper modelMapper)
     {
         this.internshipRepository = internshipRepository;
         this.companyRepository = companyRepository;
         this.userRepository = userRepository;
+        this.applicationRepository = applicationRepository;
+        this.studentRepository = studentRepository;
         this.modelMapper = modelMapper;
     }
 
@@ -58,7 +67,12 @@ public class InternshipService
             Boolean salaryFilter,
             String titleSearch,
             Pageable pageable) {
-        Specification<Internship> spec = InternshipSpecifications.withDynamicFilter(locations, fields, salaryFilter, titleSearch);
+        Specification<Internship> spec = InternshipSpecifications.withDynamicFilter(
+                locations,
+                fields,
+                salaryFilter,
+                titleSearch
+        );
         Page<Internship> page = internshipRepository.findAll(spec, pageable);
         return page.map(this::convertToDto);
     }
@@ -110,5 +124,45 @@ public class InternshipService
 
     private InternshipDto convertToDto(Internship internship) {
         return modelMapper.map(internship, InternshipDto.class);
+    }
+
+    public void applyToInternship(String internshipId) {
+        studentRepository.findById(SecurityHelper.getUserId())
+                        .ifPresent(student -> internshipRepository.findById(internshipId)
+                                .ifPresent(internship -> {
+                                    if(!applicationRepository.existsByInternshipAndStudent(internship, student)) {
+                                        var application = new Application();
+                                        application.setStudent(student);
+                                        application.setInternship(internship);
+                                        application.setStatus(ApplicationStatus.APPLIED);
+                                        applicationRepository.save(application);
+                                    }
+                                }));
+    }
+
+    public void rejectApplication(String applicationId) {
+        applicationRepository.findById(applicationId)
+                .ifPresent(application -> {
+                    application.setStatus(ApplicationStatus.REJECTED);
+                    applicationRepository.save(application);
+                });
+    }
+
+    public void acceptApplication(String applicationId) {
+        applicationRepository.findById(applicationId)
+                .ifPresent(application -> {
+                    application.setStatus(ApplicationStatus.ACCEPTED);
+                    applicationRepository.save(application);
+                });
+    }
+
+    public List<Student> findCandidatesForInternship(String internshipId) {
+        return applicationRepository.findByInternship_InternshipId(internshipId).stream()
+                .map(Application::getStudent)
+                .toList();
+    }
+
+    public List<Application> getApplicationsForStudent(String studentId) {
+        return applicationRepository.findByStudent_Id(studentId);
     }
 }
