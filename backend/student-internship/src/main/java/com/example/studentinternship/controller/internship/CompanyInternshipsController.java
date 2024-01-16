@@ -2,7 +2,6 @@ package com.example.studentinternship.controller.internship;
 
 import com.example.studentinternship.dto.CreateInternshipDto;
 import com.example.studentinternship.dto.InternshipDto;
-import com.example.studentinternship.exception.InternshipNotFoundException;
 import com.example.studentinternship.service.internship.InternshipService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,6 +22,7 @@ public class CompanyInternshipsController
     }
 
     @PostMapping
+    @Secured("RECRUITER")
     public ResponseEntity<InternshipDto> createInternship(@RequestBody CreateInternshipDto internshipDto)
     {
         InternshipDto newCompany = internshipService.createInternship(internshipDto);
