@@ -31,14 +31,14 @@ function App() {
             </ProtectedRoute>
           }
         />
-          <Route
-              path="/student/browse-internships"
-              element={
-                  <ProtectedRoute>
-                      <StudentBrowseInternshipsPage />
-                  </ProtectedRoute>
-              }
-          />
+        <Route
+          path="/student/browse-internships"
+          element={
+            <ProtectedRoute>
+              <StudentBrowseInternshipsPage />
+            </ProtectedRoute>
+          }
+        />
         <Route
           path="/recruiter/home"
           element={
@@ -63,14 +63,14 @@ function App() {
             </ProtectedRoute>
           }
         />
-          <Route
-              path="/internship-details/:internshipId"
-              element={
-                  <ProtectedRoute>
-                      <InternshipDetailsPage />
-                  </ProtectedRoute>
-              }
-          />
+        <Route
+          path="/internship-details/:internshipId"
+          element={
+            <ProtectedRoute>
+              <InternshipDetailsPage />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
     </>
   );

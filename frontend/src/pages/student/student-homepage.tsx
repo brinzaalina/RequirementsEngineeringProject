@@ -39,6 +39,9 @@ export const StudentHomepage = () => {
                     alignItems: "center",
                 }}
             >
+                <Button variant = "contained" onClick={() => navigate("/student/browse-internships")}>
+                    Browse Internships
+                </Button>
                 <Button
                     variant="contained"
                     onClick={() => handleLogout()}
