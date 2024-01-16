@@ -165,4 +165,8 @@ public class InternshipService
     public List<Application> getApplicationsForStudent(String studentId) {
         return applicationRepository.findByStudent_Id(studentId);
     }
+
+    public List<Application> getApplicationsForInternship(String internshipId) {
+        return applicationRepository.findByInternship_InternshipId(internshipId);
+    }
 }

@@ -9,8 +9,8 @@ import {
 } from "@mui/material";
 import { Container } from "@mui/system";
 import React, { useEffect, useState } from "react";
-import { CreateInternship } from "../../models/create-internship-request";
 import { useNavigate } from "react-router-dom";
+import { CreateInternship } from "../../models/create-internship-request";
 import { createInternship } from "../../services/internship/internship-service";
 
 const defaultTheme = createTheme();
@@ -46,7 +46,6 @@ export const CreateInternshipPage = () => {
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-    console.log(name, value);
     setInternship((prevInternship) => ({
       ...prevInternship,
       [name]: value,
@@ -80,6 +79,12 @@ export const CreateInternshipPage = () => {
           <Typography component="h1" variant="h5">
             Create Internship
           </Typography>
+          <Button
+            variant="contained"
+            onClick={() => navigate("/recruiter/internships")}
+          >
+            Back
+          </Button>
           <Box
             component="form"
             onSubmit={handleSubmit}

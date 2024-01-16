@@ -1,8 +1,10 @@
 package com.example.studentinternship.controller;
 
+import com.example.studentinternship.dto.ApplicationDto;
 import com.example.studentinternship.dto.StudentDto;
 import com.example.studentinternship.dto.StudentMapper;
 import com.example.studentinternship.service.internship.InternshipService;
+import org.modelmapper.ModelMapper;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,11 +16,13 @@ public class InternshipController {
 
     private final InternshipService internshipService;
     private final StudentMapper studentMapper;
+    private final ModelMapper modelMapper;
 
     public InternshipController(InternshipService internshipService,
-                                StudentMapper studentMapper) {
+                                StudentMapper studentMapper, ModelMapper modelMapper) {
         this.internshipService = internshipService;
         this.studentMapper = studentMapper;
+        this.modelMapper = modelMapper;
     }
 
     @PostMapping("/apply/{internshipId}")
@@ -44,6 +48,14 @@ public class InternshipController {
     List<StudentDto> getCandidatesList(@PathVariable String internshipId) {
         return internshipService.findCandidatesForInternship(internshipId).stream()
                 .map(studentMapper::entityToDto)
+                .toList();
+    }
+
+    @GetMapping("/applications/{internshipId}")
+    @Secured("RECRUITER")
+    List<ApplicationDto> getApplicationsList(@PathVariable String internshipId) {
+        return internshipService.getApplicationsForInternship(internshipId).stream()
+                .map(application -> modelMapper.map(application, ApplicationDto.class))
                 .toList();
     }
 }

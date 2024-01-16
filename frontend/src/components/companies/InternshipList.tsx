@@ -1,17 +1,29 @@
-import React, { useState, useEffect } from "react";
-import { Pagination, Box, Button, Typography } from "@mui/material";
+import { Box, Button, Pagination, Typography } from "@mui/material";
 import axios from "axios";
-import InternshipCard from "./InternshipCard";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import InternshipCompanyDto from "../../models/InternshipCompanyDto";
+import InternshipCard from "./InternshipCard";
 
 const InternshipList: React.FC = () => {
   const [internships, setInternships] = useState<InternshipCompanyDto[]>([]);
   const [page, setPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(0);
   const navigate = useNavigate();
-
+  const token = localStorage.getItem("token");
   useEffect(() => {
+    if (token) {
+      const role = localStorage.getItem("role")?.toLowerCase();
+      if (role !== "recruiter") {
+        if (role === "student") {
+          navigate("/student/home");
+        } else {
+          navigate("/authenticate");
+        }
+      }
+    } else {
+      navigate("/authenticate");
+    }
     const userId = localStorage.getItem("userId");
     if (userId) {
       axios
@@ -33,7 +45,7 @@ const InternshipList: React.FC = () => {
         })
         .catch((error) => console.error("Error fetching internships", error));
     }
-  }, [page]);
+  }, [page, token]);
 
   const handlePageChange = (
     event: React.ChangeEvent<unknown>,
@@ -55,19 +67,19 @@ const InternshipList: React.FC = () => {
       <Typography variant="h6" component="h2">
         Internships
       </Typography>
-        <Button variant="contained" onClick={() => navigate("/recruiter/home")}>
-            Back to Homepage
-        </Button>
+      <Button variant="contained" onClick={() => navigate("/recruiter/home")}>
+        Back to Homepage
+      </Button>
 
-        <Button
-            variant="contained"
-            onClick={() => navigate("/create-internship")}
-            sx={{
-                marginTop: 2,
-            }}
-        >
-            Create Internship
-        </Button>
+      <Button
+        variant="contained"
+        onClick={() => navigate("/create-internship")}
+        sx={{
+          marginTop: 2,
+        }}
+      >
+        Create Internship
+      </Button>
       <Pagination
         count={totalPages}
         page={page}

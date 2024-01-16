@@ -10,9 +10,9 @@ import {
   Typography,
   createTheme,
 } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import { AuthenticationRequest } from "../../models/auth-request";
 import { loginUser } from "../../services/auth/auth-service";
-import { useNavigate } from "react-router-dom";
 
 const defaultTheme = createTheme();
 
