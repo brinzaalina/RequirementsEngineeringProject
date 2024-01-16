@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Pagination, Box, Button, Typography } from "@mui/material";
 import axios from "axios";
 import InternshipCard from "./InternshipCard";
-import InternshipCompanyDto from "../models/InternshipCompanyDto";
 import { useNavigate } from "react-router-dom";
+import InternshipCompanyDto from "../../models/InternshipCompanyDto";
 
 const InternshipList: React.FC = () => {
   const [internships, setInternships] = useState<InternshipCompanyDto[]>([]);
@@ -55,19 +55,19 @@ const InternshipList: React.FC = () => {
       <Typography variant="h6" component="h2">
         Internships
       </Typography>
-      <Button variant="contained" onClick={() => navigate("/recruiter/home")}>
-        Back to Homepage
-      </Button>
-      
-      <Button
-        variant="contained"
-        onClick={() => navigate("/create-internship")}
-        sx={{
-          marginTop: 2,
-        }}
-      >
-        Create Internship
-      </Button>
+        <Button variant="contained" onClick={() => navigate("/recruiter/home")}>
+            Back to Homepage
+        </Button>
+
+        <Button
+            variant="contained"
+            onClick={() => navigate("/create-internship")}
+            sx={{
+                marginTop: 2,
+            }}
+        >
+            Create Internship
+        </Button>
       <Pagination
         count={totalPages}
         page={page}
