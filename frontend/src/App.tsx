@@ -10,6 +10,7 @@ import InternshipList from "./components/companies/InternshipList";
 import StudentBrowseInternshipsPage from "./pages/student/StudentBrowseInternshipsPage";
 import InternshipDetailsPage from "./pages/student/internshipDetailsPage";
 import { CandidatesPage } from "./pages/recruiter/applicants-page";
+import { EditCompanyPage } from "./pages/edit-company/edit-company";
 
 function App() {
   return (
@@ -77,6 +78,14 @@ function App() {
           element={
             <ProtectedRoute>
               <CandidatesPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/recruiter/edit-company"
+          element={
+            <ProtectedRoute>
+              <EditCompanyPage />
             </ProtectedRoute>
           }
         />

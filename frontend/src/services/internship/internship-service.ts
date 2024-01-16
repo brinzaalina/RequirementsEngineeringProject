@@ -6,10 +6,13 @@ export const createInternship = (
   internshipRequest: CreateInternship
 ): Promise<InternshipCompanyDto> => {
   return new Promise((resolve, reject) => {
+    const headers = {
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
+    };
     axios
       .post<InternshipCompanyDto>(
         "http://localhost:8080/api/companies/internships",
-        internshipRequest
+        internshipRequest, headers
       )
       .then((response) => {
         console.log(response);

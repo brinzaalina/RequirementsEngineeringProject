@@ -69,6 +69,9 @@ export const CandidatesPage = () => {
       <Typography variant="h4" component="h1" gutterBottom>
         Internship Candidates
       </Typography>
+      <Button variant="contained" onClick={() => navigate("/recruiter/internships")}>
+        Back to internships
+      </Button>
       <List>
         {applications.map((application) => (
           <ListItem key={application.applicationId}>

@@ -80,6 +80,12 @@ export const CreateInternshipPage = () => {
           <Typography component="h1" variant="h5">
             Create Internship
           </Typography>
+          <Button
+            variant="contained"
+            onClick={() => navigate("/recruiter/internships")}
+          >
+            Back
+          </Button>
           <Box
             component="form"
             onSubmit={handleSubmit}
