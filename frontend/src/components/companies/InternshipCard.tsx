@@ -1,12 +1,17 @@
 import React from 'react';
 import {CardContent, Typography, Button, CardActions, Card} from '@mui/material';
 import InternshipCompanyDto from "../../models/InternshipCompanyDto";
+import { useNavigate } from 'react-router-dom';
 
 interface InternshipCardProps {
     internship: InternshipCompanyDto;
 }
 
 const InternshipCard: React.FC<InternshipCardProps> = ({internship}) => {
+    const navigate = useNavigate();
+    const handleClickOnCandidates = () => {
+        navigate(`/recruiter/internship-candidates/${internship.internshipId}`);
+    };
     return (
         <Card>
             <CardContent>
@@ -40,6 +45,7 @@ const InternshipCard: React.FC<InternshipCardProps> = ({internship}) => {
                     style={{backgroundColor: '#4caf50'}} // Green pastel
                     variant="contained"
                     fullWidth
+                    onClick={() => handleClickOnCandidates()}
                 >
                     Applicants
                 </Button>

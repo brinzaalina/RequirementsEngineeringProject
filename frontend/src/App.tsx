@@ -9,6 +9,7 @@ import { LoggedIn } from "./utils/logged-in";
 import InternshipList from "./components/companies/InternshipList";
 import StudentBrowseInternshipsPage from "./pages/student/StudentBrowseInternshipsPage";
 import InternshipDetailsPage from "./pages/student/internshipDetailsPage";
+import { CandidatesPage } from "./pages/recruiter/applicants-page";
 
 function App() {
   return (
@@ -68,6 +69,14 @@ function App() {
           element={
             <ProtectedRoute>
               <InternshipDetailsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/recruiter/internship-candidates/:internshipId"
+          element={
+            <ProtectedRoute>
+              <CandidatesPage />
             </ProtectedRoute>
           }
         />
