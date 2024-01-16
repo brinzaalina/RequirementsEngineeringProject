@@ -1,16 +1,16 @@
-import "./App.css";
-import { CreateInternshipPage } from "./pages/create-internship/create-internship";
 import { Navigate, Route, Routes } from "react-router-dom";
-import { LoginRegisterPage } from "./pages/login-register/login-register";
-import { StudentHomepage } from "./pages/student/student-homepage";
-import { RecruiterHomepage } from "./pages/recruiter/recruiter-homepage";
-import { ProtectedRoute } from "./utils/protected-route";
-import { LoggedIn } from "./utils/logged-in";
+import "./App.css";
 import InternshipList from "./components/companies/InternshipList";
+import { CreateInternshipPage } from "./pages/create-internship/create-internship";
+import { EditCompanyPage } from "./pages/edit-company/edit-company";
+import { LoginRegisterPage } from "./pages/login-register/login-register";
+import { CandidatesPage } from "./pages/recruiter/applicants-page";
+import { RecruiterHomepage } from "./pages/recruiter/recruiter-homepage";
 import StudentBrowseInternshipsPage from "./pages/student/StudentBrowseInternshipsPage";
 import InternshipDetailsPage from "./pages/student/internshipDetailsPage";
-import { CandidatesPage } from "./pages/recruiter/applicants-page";
-import { EditCompanyPage } from "./pages/edit-company/edit-company";
+import { StudentHomepage } from "./pages/student/student-homepage";
+import { LoggedIn } from "./utils/logged-in";
+import { ProtectedRoute } from "./utils/protected-route";
 
 function App() {
   return (

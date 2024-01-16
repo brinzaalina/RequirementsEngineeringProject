@@ -1,14 +1,16 @@
-import { useNavigate, useParams } from "react-router-dom";
-import { Application } from "../../models/application";
-import { useEffect, useState } from "react";
-import axios from "axios";
 import {
   Button,
+  Card,
+  CardActions,
+  CardContent,
   List,
-  ListItem,
   ListItemText,
-  Typography,
+  Typography
 } from "@mui/material";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { Application } from "../../models/application";
 import {
   acceptApplication,
   rejectApplication,
@@ -45,6 +47,7 @@ export const CandidatesPage = () => {
       .then((response) => {
         console.log(response);
         alert("Accepted application.");
+        window.location.reload();
       })
       .catch((error) => {
         console.error(error);
@@ -69,33 +72,54 @@ export const CandidatesPage = () => {
       <Typography variant="h4" component="h1" gutterBottom>
         Internship Candidates
       </Typography>
-      <Button variant="contained" onClick={() => navigate("/recruiter/internships")}>
+      <Button
+        variant="contained"
+        onClick={() => navigate("/recruiter/internships")}
+      >
         Back to internships
       </Button>
+      {applications.length === 0 && (
+        <Typography variant="body1" gutterBottom>
+          No candidates yet.
+        </Typography>
+      )}
       <List>
         {applications.map((application) => (
-          <ListItem key={application.applicationId}>
-            <ListItemText primary={application.studentName} />
-            <ListItemText primary={application.status} />
+          <Card
+            key={application.applicationId}
+            sx={{
+              marginTop: 2,
+              marginBottom: 2,
+              padding: 2,
+              border: "1px solid #ccc",
+              borderRadius: "25px",
+            }}
+          >
+            <CardContent>
+              <ListItemText
+                primary={"Candidate name: " + application.studentName}
+              />
+              <ListItemText primary={"Status: " + application.status} />
+            </CardContent>
             {application.status === "APPLIED" && (
-              <>
+              <CardActions>
                 <Button
                   variant="contained"
-                  color="primary"
+                  color="success"
                   onClick={() => handleAccept(application.applicationId)}
                 >
                   Accept
                 </Button>
                 <Button
                   variant="contained"
-                  color="secondary"
+                  color="error"
                   onClick={() => handleReject(application.applicationId)}
                 >
                   Reject
                 </Button>
-              </>
+              </CardActions>
             )}
-          </ListItem>
+          </Card>
         ))}
       </List>
     </>

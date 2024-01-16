@@ -1,18 +1,19 @@
 import axios from "axios";
-import { CreateInternship } from "../../models/create-internship-request";
 import InternshipCompanyDto from "../../models/InternshipCompanyDto";
+import { CreateInternship } from "../../models/create-internship-request";
 
 export const createInternship = (
   internshipRequest: CreateInternship
 ): Promise<InternshipCompanyDto> => {
   return new Promise((resolve, reject) => {
     const headers = {
-        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
+      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
     };
     axios
       .post<InternshipCompanyDto>(
         "http://localhost:8080/api/companies/internships",
-        internshipRequest, headers
+        internshipRequest,
+        headers
       )
       .then((response) => {
         console.log(response);
@@ -33,7 +34,8 @@ export const applyToInternship = (internshipId: string): Promise<string> => {
   return new Promise((resolve, reject) => {
     axios
       .post(
-        "http://localhost:8080/api/internship/apply/" + internshipId, {},
+        "http://localhost:8080/api/internship/apply/" + internshipId,
+        {},
         headers
       )
       .then((response) => {
@@ -48,45 +50,47 @@ export const applyToInternship = (internshipId: string): Promise<string> => {
 };
 
 export const acceptApplication = (applicationId: string): Promise<string> => {
-    const headers = {
-        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-    };
-    console.log(headers);
-    return new Promise((resolve, reject) => {
-        axios
-        .post(
-            "http://localhost:8080/api/internship/accept/" + applicationId, {},
-            headers
-        )
-        .then((response) => {
-            console.log(response);
-            resolve("Accepted application successfully!");
-        })
-        .catch((error) => {
-            console.log(error);
-            reject(error);
-        });
-    });
+  const headers = {
+    headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+  };
+  console.log(headers);
+  return new Promise((resolve, reject) => {
+    axios
+      .post(
+        "http://localhost:8080/api/internship/accept/" + applicationId,
+        {},
+        headers
+      )
+      .then((response) => {
+        console.log(response);
+        resolve("Accepted application successfully!");
+      })
+      .catch((error) => {
+        console.log(error);
+        reject(error);
+      });
+  });
 };
 
 export const rejectApplication = (applicationId: string): Promise<string> => {
-    const headers = {
-        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-    };
-    console.log(headers);
-    return new Promise((resolve, reject) => {
-        axios
-        .post(
-            "http://localhost:8080/api/internship/reject/" + applicationId, {},
-            headers
-        )
-        .then((response) => {
-            console.log(response);
-            resolve("Rejected application successfully!");
-        })
-        .catch((error) => {
-            console.log(error);
-            reject(error);
-        });
-    });
+  const headers = {
+    headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+  };
+  console.log(headers);
+  return new Promise((resolve, reject) => {
+    axios
+      .post(
+        "http://localhost:8080/api/internship/reject/" + applicationId,
+        {},
+        headers
+      )
+      .then((response) => {
+        console.log(response);
+        resolve("Rejected application successfully!");
+      })
+      .catch((error) => {
+        console.log(error);
+        reject(error);
+      });
+  });
 };

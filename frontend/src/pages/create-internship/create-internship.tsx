@@ -9,8 +9,8 @@ import {
 } from "@mui/material";
 import { Container } from "@mui/system";
 import React, { useEffect, useState } from "react";
-import { CreateInternship } from "../../models/create-internship-request";
 import { useNavigate } from "react-router-dom";
+import { CreateInternship } from "../../models/create-internship-request";
 import { createInternship } from "../../services/internship/internship-service";
 
 const defaultTheme = createTheme();

@@ -15,9 +15,9 @@ import {
   createTheme,
 } from "@mui/material";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { RegisterRequest } from "../../models/register-request";
 import { registerUser } from "../../services/auth/auth-service";
-import { useNavigate } from "react-router-dom";
 
 const defaultTheme = createTheme();
 

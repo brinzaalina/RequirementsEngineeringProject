@@ -1,7 +1,7 @@
 export type AuthenticationResponse = {
-    token: string;
-    email: string;
-    userId: string;
-    availability: number;
-    role: string;
+  token: string;
+  email: string;
+  userId: string;
+  availability: number;
+  role: string;
 };

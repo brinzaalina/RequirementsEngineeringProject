@@ -1,8 +1,8 @@
+import { Box, Button, Container, TextField, Typography } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import CompanyDto from "../../models/CompanyDto";
-import { Box, Button, Container, TextField, Typography } from "@mui/material";
 import { editCompany } from "../../services/company/company-service";
 
 export const EditCompanyPage = () => {
