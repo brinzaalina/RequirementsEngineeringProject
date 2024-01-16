@@ -51,10 +51,4 @@ public class AuthenticationController {
             return new ResponseEntity<>(e.getMessage() , HttpStatus.BAD_REQUEST);
         }
     }
-
-    @GetMapping("/random")
-    @Secured("RECRUITER")
-    public void random() {
-        logger.info("Secured from student");
-    }
 }

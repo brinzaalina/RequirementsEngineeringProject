@@ -48,7 +48,7 @@ public class AuthenticationService {
             user.setCompany(company);
         }
         User saved = userService.save(user);
-        var tokenAvailability = 30;
+        var tokenAvailability = 100;
         var jwtToken = jwtService.generateToken(user, tokenAvailability);
         Long availability = jwtService.extractExpiration(jwtToken).getTime();
         return AuthenticationResponse.builder()
@@ -67,7 +67,7 @@ public class AuthenticationService {
                 Role.STUDENT,
                 registerRequest.getInstitutionName());
         User saved = userService.save(user);
-        var tokenAvailability = 1;
+        var tokenAvailability = 100;
         var jwtToken = jwtService.generateToken(user, tokenAvailability);
         Long availability = jwtService.extractExpiration(jwtToken).getTime();
         return AuthenticationResponse.builder()
@@ -88,7 +88,7 @@ public class AuthenticationService {
         );
         var user = userRepository.findByEmail(loginRequest.getEmail())
                 .orElseThrow(() -> new RuntimeException("There is no user with the provided email and password!"));
-        var tokenAvailability = user.getRole().equals(Role.STUDENT) ? 30 : 1;
+        var tokenAvailability = user.getRole().equals(Role.STUDENT) ? 100 : 100;
         var jwtToken = jwtService.generateToken(user, tokenAvailability);
         Long availability = jwtService.extractExpiration(jwtToken).getTime();
         return AuthenticationResponse.builder()
@@ -99,6 +99,4 @@ public class AuthenticationService {
                 .role(user.getRole().name())
                 .build();
     }
-
-
 }

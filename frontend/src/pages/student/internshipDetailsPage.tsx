@@ -1,14 +1,16 @@
 import React, {useEffect, useState} from 'react';
-import {useParams} from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router-dom';
 import {Box, Button, Container, Paper, Typography, Divider} from '@mui/material';
 import axios from 'axios';
 import InternshipCompanyDto from "../../models/InternshipCompanyDto";
 import CompanyDto from "../../models/CompanyDto";
+import { applyToInternship } from '../../services/internship/internship-service';
 
 const InternshipDetailsPage: React.FC = () => {
     const [internshipDetails, setInternshipDetails] = useState<InternshipCompanyDto | null>(null);
     const [companyDetails, setCompanyDetails] = useState<CompanyDto | null>(null);
     const {internshipId} = useParams<{ internshipId: string }>();
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (internshipId
@@ -32,6 +34,20 @@ const InternshipDetailsPage: React.FC = () => {
             <Typography>Loading...</Typography>
         </Box>;
     }
+
+    const handleApply = () => {
+        if (internshipId) {
+            applyToInternship(internshipId)
+                .then(() => {
+                    alert("Applied successfully!");
+                    navigate("/student/browse-internships");
+                })
+                .catch((error) => {
+                    console.error(error);
+                    alert("Error applying to internship!");
+                });
+        }
+    };
 
     return (
         <Container maxWidth="md" sx={{mt: 4}}>
@@ -104,7 +120,7 @@ const InternshipDetailsPage: React.FC = () => {
 
 
                 <Box sx={{textAlign: 'center', mt: 4}}>
-                    <Button variant="contained" color="primary" size="large">
+                    <Button variant="contained" color="primary" size="large" onClick={() => handleApply()}>
                         Apply to Internship
                     </Button>
                 </Box>
